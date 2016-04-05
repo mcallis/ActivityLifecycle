@@ -21,6 +21,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -28,6 +29,7 @@ import android.widget.Button;
  * Example Activity to demonstrate the lifecycle callback methods.
  */
 public class ActivityA extends AppCompatActivity implements View.OnClickListener{
+    private final String TAG = ActivityA.this.getClass().getSimpleName();
 
     private Button mButtonActivityB;
     private Button mButtonActivityC;
@@ -38,6 +40,7 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_a);
+        Log.d(TAG, "onCreate");
 
         // Set views
         mButtonActivityB = (Button) findViewById(R.id.btn_start_b);
@@ -55,45 +58,54 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
     @Override
     protected void onStart() {
         super.onStart();
+        Log.d(TAG, "onStart");
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
+        Log.d(TAG, "onRestart");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        Log.d(TAG, "onResume");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        Log.d(TAG, "onPause");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        Log.d(TAG, "onStop");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.d(TAG, "onDestroy");
     }
 
     public void showDialog() {
+        Log.d(TAG, "showDialog");
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         // Add the buttons
         builder.setPositiveButton(R.string.dialog_ok_button, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked OK button
+                Log.d(TAG, "dismiss");
                 dialog.dismiss();
             }
         });
         builder.setNegativeButton(R.string.dialog_cancel_button, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User cancelled the dialog
+                Log.d(TAG, "dismiss");
                 dialog.dismiss();
             }
         });
@@ -105,16 +117,19 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
     }
 
     public void startActivityB() {
+        Log.d(TAG, "startActivityB");
         Intent intent = new Intent(ActivityA.this, ActivityB.class);
         startActivity(intent);
     }
 
     public void startActivityC() {
+        Log.d(TAG, "startActivityC");
         Intent intent = new Intent(ActivityA.this, ActivityC.class);
         startActivity(intent);
     }
 
     public void finishActivityA() {
+        Log.d(TAG, "finishActivityA");
         ActivityA.this.finish();
     }
 
@@ -129,5 +144,11 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
         } else if (v == mButtonStartDialog) {
             showDialog();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Log.d(TAG, "onBackPressed");
     }
 }
